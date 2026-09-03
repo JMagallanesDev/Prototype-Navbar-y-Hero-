@@ -18,7 +18,13 @@ export default function DemoInicio() {
   return (
     <div className={`min-h-screen w-full overflow-x-hidden ${tema === "oscuro" ? "bg-neutral-950" : "bg-white"}`}>
       <NavegacionPrincipal tema={tema} alternarTema={alternarTema} />
-      <HeroInicio tema={tema} imagenDia="/imagenes/plaza-de-armas-dia.png" imagenNoche="/imagenes/plaza-de-armas-noche.png" />
+      {/* Los espacios del nombre van codificados como %20 a propósito: así la
+          ruta es válida tal cual, sin depender de que el navegador la arregle. */}
+      <HeroInicio
+        tema={tema}
+        imagenDia="/imagenes/IMAGEN%20DE%20DIA.png"
+        imagenNoche="/imagenes/IMAGEN%20DE%20NOCHE.png"
+      />
 
       {/* Contenido de ejemplo SOLO de esta demo, para poder probar el
           navbar volviéndose sólido al hacer scroll. */}

@@ -7,18 +7,16 @@
  * - Tema: recibe `tema`/`alternarTema` por props. Conéctalo a next-themes
  *   (`useTheme()`) o a tu store de Zustand en el componente padre.
  * - Nota de diseño: cuando el navbar está transparente (arriba del todo,
- *   sin scroll) se apoya sobre el Hero, cuyo overlay ahora es SIEMPRE
- *   oscuro en ambos temas (ver HeroInicio.tsx, corrección de contraste
- *   fijo). Por eso el texto en estado transparente usa un tono claro fijo
- *   en vez de depender de `tema` — si no, el texto sería ilegible en tema
- *   claro. En cuanto el usuario hace scroll y el navbar se vuelve sólido,
- *   el color sí seguirá el tema normalmente.
+ *   sin scroll) se apoya sobre el Hero, que en tema claro es blanco y en
+ *   oscuro es negro (ver HeroInicio.tsx). Por eso el color del texto sigue
+ *   al tema en los dos estados; lo único que cambia entre transparente y
+ *   sólido es cuánto contraste se le da, porque en transparente debajo hay
+ *   una foto y no una superficie plana.
  */
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
-  Landmark,
   ChevronDown,
   Globe,
   Menu,
@@ -94,12 +92,27 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
     return () => document.removeEventListener("mousedown", alClicFuera);
   }, []);
 
-  // Estado transparente (sobre el hero) = texto claro fijo.
-  // Estado sólido (con scroll) = texto según el tema de la app.
-  const textoPrincipal = conScroll ? (claro ? "text-neutral-900" : "text-white") : "text-white";
-  const textoSecundario = conScroll ? (claro ? "text-neutral-600" : "text-white/70") : "text-white/85";
-  const textoSutil = conScroll ? (claro ? "text-neutral-500" : "text-white/55") : "text-white/70";
-  const hoverSuperficie = conScroll ? (claro ? "hover:bg-black/5" : "hover:bg-white/10") : "hover:bg-white/10";
+  // El navbar sigue al tema esté transparente o sólido. Cuando está
+  // transparente se apoya sobre el hero, que en tema claro ahora es blanco
+  // de verdad: si el texto siguiera siendo claro fijo, sería ilegible.
+  // En transparente los tonos van un punto más contrastados que en sólido,
+  // porque debajo hay una foto y no una superficie plana.
+  const textoPrincipal = claro ? "text-neutral-900" : "text-white";
+  const textoSecundario = claro
+    ? conScroll
+      ? "text-neutral-600"
+      : "text-neutral-700"
+    : conScroll
+      ? "text-white/70"
+      : "text-white/85";
+  const textoSutil = claro
+    ? conScroll
+      ? "text-neutral-500"
+      : "text-neutral-600"
+    : conScroll
+      ? "text-white/55"
+      : "text-white/70";
+  const hoverSuperficie = claro ? "hover:bg-black/5" : "hover:bg-white/10";
 
   // Los paneles de los dropdowns siempre son superficies sólidas propias,
   // así que sí siguen el tema sin importar si el navbar está transparente.
@@ -118,13 +131,7 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         {/* Logo */}
-        <a href="#inicio" className="flex min-h-11 items-center gap-2.5">
-          <span
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white shadow-sm"
-            style={{ background: `linear-gradient(135deg, ${COLOR_ACENTO}, #a8672f)` }}
-          >
-            <Landmark className="h-5 w-5" strokeWidth={2.25} />
-          </span>
+        <a href="#inicio" className="flex min-h-11 items-center">
           <span className="flex flex-col leading-none">
             <span className={`text-[15px] font-bold tracking-tight sm:text-base ${textoPrincipal}`}>
               Yachay Ayacucho
@@ -227,11 +234,11 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
             tema={tema}
             alternarTema={alternarTema}
             className={
-              conScroll
-                ? claro
-                  ? "text-neutral-700 hover:bg-black/5"
-                  : "text-amber-200 hover:bg-white/10"
-                : "text-amber-100 hover:bg-white/10"
+              claro
+                ? "text-neutral-700 hover:bg-black/5"
+                : conScroll
+                  ? "text-amber-200 hover:bg-white/10"
+                  : "text-amber-100 hover:bg-white/10"
             }
           />
 
@@ -303,7 +310,7 @@ function DrawerMovil({
             initial={{ x: prefiereMenosMovimiento ? 0 : "100%", opacity: prefiereMenosMovimiento ? 0 : 1 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: prefiereMenosMovimiento ? 0 : "100%", opacity: prefiereMenosMovimiento ? 0 : 1 }}
-            transition={{ type: "tween", duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ type: "tween", duration: 0.28, ease: [0.22, 1, 0.36, 1] as const }}
             className={`fixed inset-y-0 right-0 z-[70] flex w-[86%] max-w-sm flex-col overflow-y-auto pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] shadow-2xl lg:hidden ${
               claro ? "bg-white text-neutral-900" : "bg-neutral-950 text-white"
             }`}

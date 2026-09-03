@@ -177,6 +177,18 @@ export function DiaTextReveal({
     buildGradient(pos, optsRef.current.colors, optsRef.current.textColor)
   )
 
+  // `useTransform` solo se reevalúa cuando cambia `sweepPos`, y al terminar el
+  // barrido esa MotionValue se queda quieta. Sin esto, cambiar de tema no
+  // recolorearía el titular: seguiría con el `textColor` del tema anterior
+  // porque nadie vuelve a construir el gradiente. El empujón mínimo y la
+  // vuelta al valor exacto fuerzan la notificación sin mover el barrido.
+  const colorsKey = colors.join("|")
+  useEffect(() => {
+    const pos = sweepPos.get()
+    sweepPos.set(pos + 0.0001)
+    sweepPos.set(pos)
+  }, [colorsKey, textColor, sweepPos])
+
   const isInView = useInView(spanRef, { once, amount: 0.1 })
 
   useEffect(() => {
@@ -259,7 +271,7 @@ export function DiaTextReveal({
         }),
       }}
       animate={animatedW != null ? { width: animatedW } : undefined}
-      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] as const }}
       {...props}
     >
       {texts[activeIndex]}
