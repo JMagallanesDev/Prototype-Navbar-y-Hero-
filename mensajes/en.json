@@ -1,0 +1,57 @@
+{
+  "Gallery": {
+    "regionLabel": "Photo gallery of {place}",
+    "slideLabel": "Image {index} of {total}",
+    "thumbLabel": "View image {index} of {total}",
+    "dotLabel": "Go to image {index} of {total}",
+    "empty": "No images available"
+  },
+  "Festividades": {
+    "titulo": "Festivities of Ayacucho",
+    "subtitulo": "Discover the celebrations that shape the year in Huamanga",
+    "ubicacionLabel": "Location",
+    "fechasLabel": "Dates",
+    "carnaval": {
+      "titulo": "Ayacucho Carnival",
+      "alt": "Aerial view of the carnival parade in Huamanga's main square: troupes of dancers in pink skirts and black hats move along the road between spectators seated under the colonial arcades",
+      "texto": "One of the most colourful and traditional festivities in Peru, declared Cultural Heritage of the Nation, known for its dance troupes, satirical songs in Quechua and the mass play with water and talcum powder.",
+      "ubicacion": "Huamanga, Ayacucho",
+      "fechas": "February / March"
+    },
+    "semanaSanta": {
+      "titulo": "Holy Week in Ayacucho",
+      "alt": "Night-time Holy Week procession in front of Ayacucho cathedral, the float covered in white flowers and lit candles amid the crowd",
+      "texto": "It is the most important religious and cultural festivity in the region, famous for its vast processions, flower carpets and the popular fervour that brings the city to a standstill for ten days.",
+      "ubicacion": "Huamanga, Ayacucho",
+      "fechas": "March / April"
+    },
+    "fiestaCruces": {
+      "titulo": "Festival of the Crosses",
+      "alt": "A worshipper carries on his shoulder a turquoise cross bearing the INRI sign and an image of Christ in a niche, draped in a red mantle embroidered in gold, along a village street among the crowd",
+      "texto": "One of the region's most deeply rooted religious and traditional festivities, marked by the descent of the crosses from the guardian hills, the eve-night bonfires and the processions that wind through the neighbourhoods to singing in Quechua and Spanish.",
+      "ubicacion": "Huamanga and the provinces of Ayacucho",
+      "fechas": "3 May"
+    },
+    "yakuRaymi": {
+      "titulo": "Yaku Raymi (Water Festival)",
+      "alt": "Scissors dancers in the square at Andamarca: two performers in fringed embroidered costumes and mirrored headdresses dance with their scissors held high, accompanied by a musician, before the crowd",
+      "texto": "One of the region's most representative ancestral water festivities: the community clears the irrigation channels before the rains and makes its offering to Pachamama and to the water, with the scissors dancers leading the ritual.",
+      "ubicacion": "Andamarca, Lucanas (Ayacucho)",
+      "fechas": "24-25 August"
+    },
+    "todosLosSantos": {
+      "titulo": "All Saints' Day",
+      "alt": "Close-up of a t'anta wawa: a braided glazed bread covered in coloured sprinkles, sesame seeds and sugar flowers, with a painted plaster face peeking out from under a pink ruffled bonnet",
+      "texto": "One of the region's most profound festivities of mysticism and ancestral memory, known for visits to the cemeteries bearing offerings, the baking of the traditional t'anta wawas and the celebration of life after death.",
+      "ubicacion": "Huamanga and the provinces of Ayacucho",
+      "fechas": "1-2 November"
+    },
+    "batallaAyacucho": {
+      "titulo": "Re-enactment of the Battle of Ayacucho",
+      "alt": "Commemorative ceremony at the foot of the Pampa de Quinua obelisk: formations of soldiers in period uniforms, red shakos and bayoneted rifles, with Peruvian flags and the mountain range behind",
+      "texto": "One of the most important patriotic and historical commemorations in Peru, declared Cultural Heritage of the Nation, known for the mass re-enactment of the 1824 battle that sealed Spanish American independence.",
+      "ubicacion": "Pampa de Zungarocro (Pampa de Quinua), Ayacucho",
+      "fechas": "9 December"
+    }
+  }
+}

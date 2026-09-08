@@ -1,2 +1,10 @@
 packages:
   - '.'
+
+# Scripts de instalación de dos dependencias transitivas de next-intl. Van a
+# `false` porque solo hacen falta para su extractor de mensajes en tiempo de
+# compilación, que este prototipo no usa: el copy se importa directo desde
+# `mensajes/es.json`. Con ellos desactivados, dev y build funcionan igual.
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false

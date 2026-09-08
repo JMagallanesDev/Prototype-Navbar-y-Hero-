@@ -137,7 +137,7 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
               Yachay Ayacucho
             </span>
             <span className={`mt-1 text-[10px] font-medium sm:text-[11px] ${textoSutil}`}>
-              Turismo inteligente y patrimonio cultural
+              
             </span>
           </span>
         </a>

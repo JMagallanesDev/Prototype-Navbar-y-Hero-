@@ -9,6 +9,9 @@
 import { useState } from "react";
 import { NavegacionPrincipal } from "./NavegacionPrincipal";
 import { HeroInicio } from "./HeroInicio";
+import { FestividadesAyacucho } from "./FestividadesAyacucho";
+import { LugaresDestacados } from "./LugaresDestacados";
+import { ClimaYRecomendaciones } from "./ClimaYRecomendaciones";
 import type { Tema } from "./tema";
 
 export default function DemoInicio() {
@@ -25,6 +28,12 @@ export default function DemoInicio() {
         imagenDia="/imagenes/IMAGEN%20DE%20DIA.png"
         imagenNoche="/imagenes/IMAGEN%20DE%20NOCHE.png"
       />
+
+      <FestividadesAyacucho tema={tema} />
+
+      <LugaresDestacados tema={tema} />
+
+      <ClimaYRecomendaciones tema={tema} />
 
       {/* Contenido de ejemplo SOLO de esta demo, para poder probar el
           navbar volviéndose sólido al hacer scroll. */}

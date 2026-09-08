@@ -11,3 +11,12 @@ body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/*
+ * El carrusel de festividades pinta sus tokens con la variante `dark:`. Este
+ * prototipo no usa `prefers-color-scheme` —el tema lo manda la prop `tema`—,
+ * así que la variante se ata a una clase que el propio componente aplica
+ * sobre su sección. Sin esto el carrusel se quedaría siempre en tema claro,
+ * aunque el resto de la página estuviera en oscuro.
+ */
+@custom-variant dark (&:where(.dark, .dark *));

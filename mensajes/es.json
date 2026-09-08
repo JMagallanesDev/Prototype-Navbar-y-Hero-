@@ -1,0 +1,57 @@
+{
+  "Gallery": {
+    "regionLabel": "Galería de fotos de {place}",
+    "slideLabel": "Imagen {index} de {total}",
+    "thumbLabel": "Ver imagen {index} de {total}",
+    "dotLabel": "Ir a la imagen {index} de {total}",
+    "empty": "No hay imágenes disponibles"
+  },
+  "Festividades": {
+    "titulo": "Festividades de Ayacucho",
+    "subtitulo": "Descubre las celebraciones que marcan el año en Huamanga",
+    "ubicacionLabel": "Ubicación",
+    "fechasLabel": "Fechas",
+    "carnaval": {
+      "titulo": "Carnaval Ayacuchano",
+      "alt": "Vista aérea del pasacalle de carnaval en la Plaza Mayor de Huamanga: comparsas de bailarinas con faldas rosadas y sombreros negros avanzan por la calzada entre el público sentado bajo los arcos del portal",
+      "texto": "Es una de las festividades más coloridas y tradicionales del Perú, declarada Patrimonio Cultural de la Nación, destacada por sus comparsas, canciones satíricas en quechua y el juego masivo con agua y talco.",
+      "ubicacion": "Huamanga, Ayacucho",
+      "fechas": "Febrero / Marzo"
+    },
+    "semanaSanta": {
+      "titulo": "Semana Santa en Ayacucho",
+      "alt": "Procesión nocturna de Semana Santa frente a la catedral de Ayacucho, con el anda cubierta de flores blancas y cirios encendidos entre la multitud",
+      "texto": "Es la festividad religiosa y cultural más importante de la región, famosa por sus multitudinarias procesiones, alfombras de flores y el fervor popular que paraliza la ciudad durante diez días.",
+      "ubicacion": "Huamanga, Ayacucho",
+      "fechas": "Marzo / Abril"
+    },
+    "fiestaCruces": {
+      "titulo": "Fiesta de las Cruces",
+      "alt": "Un fiel carga al hombro una cruz turquesa con el rótulo INRI y la imagen del Cristo en una hornacina, cubierta por un manto rojo bordado en oro, mientras avanza por una calle del pueblo entre los asistentes",
+      "texto": "Es una de las festividades religiosas y tradicionales más arraigadas de la región, marcada por la bajada de las cruces desde los cerros tutelares, las vísperas con quema de chamizas y las procesiones que recorren los barrios entre cánticos en quechua y castellano.",
+      "ubicacion": "Huamanga y provincias de Ayacucho",
+      "fechas": "3 de mayo"
+    },
+    "yakuRaymi": {
+      "titulo": "Yaku Raymi (Fiesta del Agua)",
+      "alt": "Danzantes de tijeras en la plaza de Andamarca: dos bailarines con trajes bordados de flecos y monteras de espejos ejecutan sus pasos con las tijeras en alto, acompañados por un músico, ante el público",
+      "texto": "Es una de las festividades ancestrales e hídricas más representativas de la región: la comunidad limpia las acequias antes de las lluvias y rinde el pago a la Pachamama y al agua, con los danzantes de tijeras como protagonistas del ritual.",
+      "ubicacion": "Andamarca, Lucanas (Ayacucho)",
+      "fechas": "24 y 25 de agosto"
+    },
+    "todosLosSantos": {
+      "titulo": "Todos los Santos",
+      "alt": "Primer plano de una t'anta wawa: pan trenzado y glaseado, cubierto de grageas de colores, ajonjolí y flores de azúcar, con la carita de yeso pintada asomando bajo un gorro rosado de volantes",
+      "texto": "Es una de las festividades místicas y de memoria ancestral más profundas de la región, destacada por la visita a los cementerios con ofrendas, la preparación de las tradicionales t'anta wawas y la celebración de la vida tras la muerte.",
+      "ubicacion": "Huamanga y provincias de Ayacucho",
+      "fechas": "1 y 2 de noviembre"
+    },
+    "batallaAyacucho": {
+      "titulo": "Escenificación de la Batalla de Ayacucho",
+      "alt": "Ceremonia conmemorativa al pie del obelisco de la Pampa de Quinua: formaciones de militares con uniformes de época, chacós rojos y fusiles con bayoneta, con banderas peruanas y la cordillera al fondo",
+      "texto": "Es una de las conmemoraciones patrióticas e históricas más importantes del Perú, declarada Patrimonio Cultural de la Nación, destacada por la multitudinaria recreación del enfrentamiento de 1824 que selló la independencia hispanoamericana.",
+      "ubicacion": "Pampa de Zungarocro (Pampa de Quinua), Ayacucho",
+      "fechas": "9 de diciembre"
+    }
+  }
+}
