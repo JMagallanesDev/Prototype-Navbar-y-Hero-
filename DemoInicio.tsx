@@ -12,6 +12,8 @@ import { HeroInicio } from "./HeroInicio";
 import { FestividadesAyacucho } from "./FestividadesAyacucho";
 import { LugaresDestacados } from "./LugaresDestacados";
 import { ClimaYRecomendaciones } from "./ClimaYRecomendaciones";
+import { MapaTresD } from "./MapaTresD";
+import { PasaporteCultural } from "./PasaporteCultural";
 import type { Tema } from "./tema";
 
 export default function DemoInicio() {
@@ -34,6 +36,10 @@ export default function DemoInicio() {
       <LugaresDestacados tema={tema} />
 
       <ClimaYRecomendaciones tema={tema} />
+
+      <MapaTresD tema={tema} />
+
+      <PasaporteCultural tema={tema} />
 
       {/* Contenido de ejemplo SOLO de esta demo, para poder probar el
           navbar volviéndose sólido al hacer scroll. */}
