@@ -1,15 +1,56 @@
 @import "tailwindcss";
 
+/*
+ * Tipografía del sistema, mapeada a los tokens de Tailwind 4.
+ *
+ * `app/layout.tsx` carga las dos familias con next/font/google y las publica
+ * como --font-fraunces y --font-jakarta. Aquí se enganchan al tema para poder
+ * usarlas como utilidades:
+ *
+ *   font-display -> Fraunces (titulares serif)
+ *   font-sans    -> Plus Jakarta Sans (cuerpo, UI, nav, chips, botones)
+ *
+ * Va `inline` porque los valores apuntan a variables que define otra capa (la
+ * de next/font): sin eso Tailwind intentaría resolverlas en tiempo de
+ * compilación, cuando todavía no existen.
+ *
+ * Para cambiar de familia se toca solo esto y el import de `layout.tsx`; nada
+ * en los componentes, que solo usan `font-display` / `font-sans`.
+ */
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
 }
 
+/* Preflight de Tailwind no aplica --font-sans al documento por sí solo. */
+body {
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
 /* Parpadeo del cursor de <TypingAnimation>. */
 @keyframes parpadeo-cursor {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/*
+ * Carril que se arrastra en horizontal sin barra a la vista (los chips del
+ * hero en móvil). El scroll sigue existiendo —con rueda, gesto y teclado—,
+ * solo se oculta el indicador, que en un carril de fichas ensucia más de lo
+ * que ayuda.
+ */
+.sin-barra-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.sin-barra-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 /*

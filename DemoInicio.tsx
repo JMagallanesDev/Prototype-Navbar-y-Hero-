@@ -23,7 +23,7 @@ export default function DemoInicio() {
   const alternarTema = () => setTema((t) => (t === "oscuro" ? "claro" : "oscuro"));
 
   return (
-    <div className={`min-h-screen w-full overflow-x-hidden ${tema === "oscuro" ? "bg-neutral-950" : "bg-white"}`}>
+    <div className={`min-h-screen w-full overflow-x-hidden ${tema === "oscuro" ? "bg-[#0e0d0c]" : "bg-[#faf8f5]"}`}>
       <NavegacionPrincipal tema={tema} alternarTema={alternarTema} />
       {/* Los espacios del nombre van codificados como %20 a propósito: así la
           ruta es válida tal cual, sin depender de que el navegador la arregle. */}

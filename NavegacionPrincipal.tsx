@@ -19,6 +19,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ChevronDown,
   Globe,
+  Flower,
   Menu,
   X,
   Smartphone,
@@ -97,22 +98,26 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
   // de verdad: si el texto siguiera siendo claro fijo, sería ilegible.
   // En transparente los tonos van un punto más contrastados que en sólido,
   // porque debajo hay una foto y no una superficie plana.
-  const textoPrincipal = claro ? "text-neutral-900" : "text-white";
-  const textoSecundario = claro
-    ? conScroll
-      ? "text-neutral-600"
-      : "text-neutral-700"
-    : conScroll
-      ? "text-white/70"
-      : "text-white/85";
-  const textoSutil = claro
-    ? conScroll
-      ? "text-neutral-500"
-      : "text-neutral-600"
-    : conScroll
-      ? "text-white/55"
-      : "text-white/70";
-  const hoverSuperficie = claro ? "hover:bg-black/5" : "hover:bg-white/10";
+  /*
+   * El color del texto NO sigue al tema mientras el navbar está transparente:
+   * sigue a lo que tiene debajo. Y debajo está el hero, que es una tarjeta
+   * oscura en los DOS temas —lo que cambia con el tema es la foto y el lienzo
+   * de la página, no la tarjeta—, así que ahí el texto va siempre claro.
+   *
+   * En cuanto aparece el fondo sólido al hacer scroll, el navbar ya se apoya
+   * sobre la página y entonces sí manda el tema.
+   *
+   * Antes esto se decidía solo por `claro`, cuando el hero era blanco en tema
+   * claro. Con el modelo nuevo aquello dejaba los enlaces en gris oscuro sobre
+   * una foto oscura: ilegibles.
+   */
+  const sobreFoto = !conScroll;
+  const claroSolido = claro && conScroll;
+
+  const textoPrincipal = claroSolido ? "text-neutral-900" : "text-white";
+  const textoSecundario = claroSolido ? "text-neutral-600" : sobreFoto ? "text-white/85" : "text-white/70";
+  const textoSutil = claroSolido ? "text-neutral-500" : sobreFoto ? "text-white/70" : "text-white/55";
+  const hoverSuperficie = claroSolido ? "hover:bg-black/5" : "hover:bg-white/10";
 
   // Los paneles de los dropdowns siempre son superficies sólidas propias,
   // así que sí siguen el tema sin importar si el navbar está transparente.
@@ -131,14 +136,19 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         {/* Logo */}
-        <a href="#inicio" className="flex min-h-11 items-center">
-          <span className="flex flex-col leading-none">
-            <span className={`text-[15px] font-bold tracking-tight sm:text-base ${textoPrincipal}`}>
-              Yachay Ayacucho
-            </span>
-            <span className={`mt-1 text-[10px] font-medium sm:text-[11px] ${textoSutil}`}>
-              
-            </span>
+        {/* Wordmark: símbolo dorado + "Yachay" en la serif de titulares y
+            "Ayacucho" en la sans, ligera. El contraste entre las dos familias
+            es el que hace de logotipo; el icono es un marcador hasta que
+            tengas el símbolo definitivo. */}
+        <a href="#inicio" className="flex min-h-11 items-center gap-2">
+          <Flower
+            className="h-5 w-5 shrink-0 sm:h-[22px] sm:w-[22px]"
+            style={{ color: COLOR_ACENTO }}
+            aria-hidden="true"
+          />
+          <span className={`flex items-baseline gap-1.5 leading-none ${textoPrincipal}`}>
+            <span className="font-display text-lg font-bold tracking-tight sm:text-xl">Yachay</span>
+            <span className="text-sm font-light tracking-wide sm:text-[15px]">Ayacucho</span>
           </span>
         </a>
 
@@ -153,6 +163,13 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
               Explorar
               <ChevronDown className={`h-3.5 w-3.5 transition-transform ${explorarAbierto ? "rotate-180" : ""}`} />
             </button>
+            {/* Marca de apartado activo. Va fuera del botón para no entrar en
+                su caja de foco ni desplazar el texto al aparecer. */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-3.5 bottom-1 h-0.5 rounded-full"
+              style={{ backgroundColor: COLOR_ACENTO }}
+            />
             <AnimatePresence>
               {explorarAbierto && (
                 <motion.div

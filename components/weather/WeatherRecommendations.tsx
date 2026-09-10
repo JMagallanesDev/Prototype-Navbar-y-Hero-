@@ -285,7 +285,7 @@ export default function WeatherRecommendations({
          como una banda de otro tono al hacer scroll; ahora la sección se funde
          con lo que tiene arriba y abajo, que es lo que hace que el bloque se
          lea limpio. */
-      className={`w-full bg-white px-4 py-10 text-[#17150f] transition-colors sm:px-6 sm:py-14 lg:px-10 lg:py-16 dark:bg-[#0a0a0a] dark:text-white ${className}`}
+      className={`w-full bg-[#faf8f5] px-4 py-10 text-[#17150f] transition-colors sm:px-6 sm:py-14 lg:px-10 lg:py-16 dark:bg-[#0e0d0c] dark:text-white ${className}`}
     >
       <div className="mx-auto w-full max-w-[1200px]">
         {/* Cabecera de la sección. Los filetes salen a partir de `md` y más

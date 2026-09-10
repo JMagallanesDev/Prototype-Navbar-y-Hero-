@@ -274,7 +274,7 @@ export function CommunityReviews({
 
   return (
     <section
-      className={`w-full overflow-hidden bg-[#FAF7F2] py-16 md:py-20 lg:py-24 dark:bg-[#0B0A09] ${className ?? ""}`}
+      className={`w-full overflow-hidden bg-[#faf8f5] py-16 md:py-20 lg:py-24 dark:bg-[#0e0d0c] ${className ?? ""}`}
     >
       {/* Cabecera: columna en móvil, extremos en ≥md como la referencia. */}
       <div

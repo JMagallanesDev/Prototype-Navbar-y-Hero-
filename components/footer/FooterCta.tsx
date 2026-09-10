@@ -334,7 +334,7 @@ export function FooterCta({
 
   return (
     <footer
-      className={`w-full bg-[#FAF7F2] pt-14 pb-8 md:pt-16 dark:bg-[#0B0A09] ${className ?? ""}`}
+      className={`w-full bg-[#faf8f5] pt-14 pb-8 md:pt-16 dark:bg-[#0e0d0c] ${className ?? ""}`}
     >
       <div className={CONTENEDOR}>
         {/* ---------------------------------------------------- banner CTA --- */}

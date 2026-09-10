@@ -36,7 +36,7 @@ export function PasaporteCultural({ tema }: PasaporteCulturalProps) {
       // `.dark` activa la paleta oscura del componente. El fondo lo pone esta
       // sección y es el mismo de la página, para que la tarjeta del pasaporte
       // se recorte sobre un lienzo continuo y no sobre una banda de otro tono.
-      className={oscuro ? "dark bg-neutral-950" : "bg-white"}
+      className={oscuro ? "dark bg-[#0e0d0c]" : "bg-[#faf8f5]"}
     >
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <CulturalPassport />

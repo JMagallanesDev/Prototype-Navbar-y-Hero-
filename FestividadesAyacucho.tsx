@@ -221,8 +221,8 @@ export function FestividadesAyacucho({ tema }: FestividadesAyacuchoProps) {
         // clases solo alinean la sección con el fondo del prototipo.
         className={
           oscuro
-            ? "dark bg-neutral-950 text-neutral-100"
-            : "bg-white text-neutral-900"
+            ? "dark bg-[#0e0d0c] text-neutral-100"
+            : "bg-[#faf8f5] text-neutral-900"
         }
       >
         {/* En móvil el bloque se ancla arriba: con `items-center`, cualquier

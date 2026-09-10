@@ -78,3 +78,15 @@ export const BANDA_GRADIENTE_TITULAR_CLARO = [
   COLOR_ACENTO_FUERTE,
   COLOR_TITULAR_LINEA_3_CLARO,
 ];
+
+/**
+ * Fondo de la página en cada tema — el lienzo que rodea la tarjeta del hero.
+ *
+ * No son grises neutros: los dos tiran ligeramente a cálido para no pelearse
+ * con el dorado de marca ni con la piedra de las fotos. Viven aquí y no dentro
+ * de cada sección porque el hero es una tarjeta con esquinas redondeadas y el
+ * fondo asoma a su alrededor: si una sección usara otro tono, se vería la
+ * costura al hacer scroll.
+ */
+export const COLOR_PAGINA_OSCURO = "#0e0d0c";
+export const COLOR_PAGINA_CLARO = "#faf8f5";

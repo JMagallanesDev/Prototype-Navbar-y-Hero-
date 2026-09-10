@@ -3,80 +3,146 @@
 /**
  * HeroInicio — Yachay Ayacucho
  *
- * Conexión con tu proyecto real:
- * - Tema: recibe `tema` por props (conéctalo a next-themes o a tu store).
- * - Imágenes: pasa tus rutas reales en `imagenDia` / `imagenNoche` (sin
- *   rutas quemadas aquí dentro). Si tus fotos finales no encuadran el
- *   mismo punto focal (la catedral), ajusta `posicionFocoDia` /
- *   `posicionFocoNoche` (valores CSS `object-position`, ej. "50% 35%")
- *   hasta que coincidan visualmente entre ambas.
- * - Traducciones: todo el copy vive en `TEXTOS_HERO` y `PARRAFO_SEGMENTOS`
- *   más abajo. Reemplázalos por tus hooks de next-intl (`useTranslations`)
- *   cuando conectes la traducción real — están centralizados a propósito
- *   para que ese cambio sea mecánico.
+ * Tarjeta de esquinas redondeadas que ocupa una pantalla completa, con la foto
+ * de Huamanga de fondo y el contenido repartido en tres franjas.
  *
- * Temas: el tema claro es claro de verdad. El overlay sobre la foto es
- * blanco y se abre hacia la derecha, así que la mitad izquierda (donde
- * vive el texto) queda casi blanca y la foto asoma por la derecha; en
- * oscuro el mismo overlay es negro. Como el fondo cambia de blanco a
- * negro, TODO el texto cambia con él — titular, párrafo, botones e
- * indicador de scroll. Los valores concretos y su contraste medido están
- * en `tema.ts`.
+ * ── Conexión con tu proyecto real ────────────────────────────────────────────
+ * - Tema: llega por la prop `tema`. Conéctalo a next-themes (`useTheme()`) o a
+ *   tu store; el componente no guarda estado de tema.
+ * - Imágenes: pasa tus rutas en `imagenDia` / `imagenNoche`. Si las fotos no
+ *   encuadran el mismo punto, ajusta `posicionFocoDia` / `posicionFocoNoche`
+ *   (valores de `object-position`) hasta que coincidan.
+ * - Traducciones: todo el copy vive en `TEXTOS` y en las listas de abajo, y se
+ *   puede pisar entero con la prop `textos`. Cuando montes next-intl, el cambio
+ *   es mecánico: `<HeroInicio textos={{ ... t("...") }} />`.
+ * - La barra superior NO vive aquí: es <NavegacionPrincipal>, que va fija por
+ *   encima de esta tarjeta. El `pt` del contenido es el que le deja sitio.
+ *
+ * ── Cómo está montado ────────────────────────────────────────────────────────
+ * En escritorio el mockup son tres franjas —arriba, centro y pie— con dos
+ * columnas cada una. Está resuelto con una rejilla de 2×3 y NO con elementos
+ * flotando en absoluto: así ningún bloque puede montarse sobre otro cuando el
+ * texto crece (traducciones más largas, tipografía mayor por accesibilidad).
+ *
+ * En móvil esa misma rejilla se desarma en una columna y el orden de lectura lo
+ * fija `order-*`: titular, propuesta y llamada a la acción, prueba social,
+ * tarjeta, fichas y redes. Nada flota y nada se escala: se reordena.
+ *
+ * ── Contraste ────────────────────────────────────────────────────────────────
+ * El texto es claro en LOS DOS temas, porque la tarjeta es oscura en ambos: lo
+ * que cambia con el tema es la foto y el lienzo de la página, no la tarjeta.
+ * El velo tiene una capa radial extra justo detrás del titular, que es donde la
+ * foto diurna se va a las luces cálidas y el blanco se caía por debajo de AA.
  */
 
 import { useEffect } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
-  Map as MapIcon,
-  PlayCircle,
+  ShieldCheck,
+  Instagram,
+  Facebook,
+  Twitter,
+  Boxes,
+  Landmark,
+  CalendarDays,
+  Award,
+  Star,
+  TriangleAlert,
+  ArrowUpRight,
   ChevronDown,
+  type LucideIcon,
 } from "lucide-react";
-import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
-import { TypingAnimation } from "@/components/ui/typing-animation";
-import {
-  type Tema,
-  COLOR_ACENTO,
-  COLOR_ACENTO_TEXTO_CLARO,
-  COLOR_TITULAR_LINEA_1,
-  COLOR_TITULAR_LINEA_2,
-  COLOR_TITULAR_LINEA_3,
-  COLOR_TITULAR_LINEA_1_CLARO,
-  COLOR_TITULAR_LINEA_2_CLARO,
-  COLOR_TITULAR_LINEA_3_CLARO,
-  BANDA_GRADIENTE_TITULAR,
-  BANDA_GRADIENTE_TITULAR_CLARO,
-} from "./tema";
+import { type Tema, COLOR_ACENTO } from "./tema";
+
+/* -------------------------------------------------------------------------- */
+/*                                   Textos                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface TextosHero {
+  /** El titular va partido porque dos de sus palabras van dentro de píldoras. */
+  tituloLinea1: string;
+  tituloPildora1: string;
+  tituloLinea2: string;
+  tituloPildora2: string;
+  pruebaSocial: string;
+  tarjetaTitulo: string;
+  tarjetaTexto: string;
+  /** Versión recortada de lo anterior, la que se ve en móvil. */
+  tarjetaTextoCorto: string;
+  etiquetaOferta: string;
+  propuesta: string;
+  botonPrimario: string;
+  altFotoDia: string;
+  altFotoNoche: string;
+  irAlSiguiente: string;
+}
+
+const TEXTOS: TextosHero = {
+  tituloLinea1: "Explora su",
+  tituloPildora1: "historia,",
+  tituloLinea2: "protege su",
+  tituloPildora2: "legado.",
+  pruebaSocial: "Miles de viajeros exploran Ayacucho",
+  tarjetaTitulo: "Descubre. Conoce. Protege.",
+  tarjetaTexto:
+    "Tu guía inteligente del patrimonio de Huamanga: mapa 3D, clima y reseñas. Explora más.",
+  tarjetaTextoCorto: "Mapa 3D, clima y reseñas del patrimonio de Huamanga.",
+  etiquetaOferta: "Lo que te ofrecemos:",
+  propuesta: "Descubre el patrimonio vivo de Ayacucho en un mapa 3D interactivo.",
+  botonPrimario: "Explorar mapa 3D",
+  altFotoDia: "Plaza de Armas de Huamanga, Ayacucho — de día",
+  altFotoNoche: "Plaza de Armas de Huamanga, Ayacucho — de noche",
+  irAlSiguiente: "Ir al siguiente bloque",
+};
+
+/** Las seis fichas de la esquina inferior izquierda. */
+const OFERTA: ReadonlyArray<{ etiqueta: string; Icono: LucideIcon; href: string }> = [
+  { etiqueta: "Mapa 3D", Icono: Boxes, href: "#mapa-3d" },
+  { etiqueta: "Lugares históricos", Icono: Landmark, href: "#lugares" },
+  { etiqueta: "Agenda cultural", Icono: CalendarDays, href: "#festividades" },
+  { etiqueta: "Insignias", Icono: Award, href: "#pasaporte" },
+  { etiqueta: "Reseñas", Icono: Star, href: "#comunidad" },
+  { etiqueta: "Reportar daños", Icono: TriangleAlert, href: "#reportar" },
+];
+
+const REDES: ReadonlyArray<{ nombre: string; Icono: LucideIcon; href: string }> = [
+  { nombre: "Instagram", Icono: Instagram, href: "#instagram" },
+  { nombre: "Facebook", Icono: Facebook, href: "#facebook" },
+  { nombre: "X", Icono: Twitter, href: "#x" },
+];
+
+/**
+ * Prueba social. Se dibujan con iniciales y un degradado propio en vez de con
+ * fotos: son cuatro avatares de 36 px que no justifican cuatro peticiones de
+ * red, y así el bloque no depende de ningún archivo que pueda faltar.
+ */
+const VIAJEROS: ReadonlyArray<{ iniciales: string; de: string; a: string }> = [
+  { iniciales: "MQ", de: "#D9A05B", a: "#A8672F" },
+  { iniciales: "JC", de: "#7E9AA6", a: "#3F5A66" },
+  { iniciales: "SR", de: "#C98B9B", a: "#8A4E60" },
+  { iniciales: "AH", de: "#A8B58C", a: "#5E6B45" },
+];
+
+/* -------------------------------------------------------------------------- */
+/*                                    Props                                   */
+/* -------------------------------------------------------------------------- */
 
 interface HeroInicioProps {
   tema: Tema;
   imagenDia: string;
   imagenNoche: string;
-  /** object-position CSS para afinar el punto focal de cada foto. */
+  /** `object-position` para afinar el punto focal de cada foto. */
   posicionFocoDia?: string;
   posicionFocoNoche?: string;
+  /** Pisa cualquier texto; el resto se queda con el de por defecto. */
+  textos?: Partial<TextosHero>;
+  /** Ancla del bloque al que baja el indicador de scroll. */
+  hrefSiguiente?: string;
 }
 
-const TEXTOS_HERO = {
-  
-  tituloLinea1: "Explora Ayacucho,",
-  tituloLinea2: "vive su historia,",
-  tituloLinea3: "protege su legado.",
-  botonPrimario: "Explorar mapa 3D",
-  botonSecundario: "Ver video",
-  altFotoDia: "Plaza de Armas de Huamanga, Ayacucho — de día",
-  altFotoNoche: "Plaza de Armas de Huamanga, Ayacucho — de noche",
-};
-
-/** Párrafo descriptivo partido en segmentos para poder resaltar palabras clave. */
-const PARRAFO_SEGMENTOS: { texto: string; resaltado?: boolean }[] = [
-  { texto: "Yachay Ayacucho es tu guía inteligente para descubrir el patrimonio cultural de Huamanga. Explora " },
-  { texto: "lugares históricos", resaltado: true },
-  { texto: " en 3D, consulta clima y recomendaciones, participa con " },
-  { texto: "reseñas", resaltado: true },
-  { texto: " y gana " },
-  { texto: "insignias", resaltado: true },
-  { texto: " por tus visitas." },
-];
+/* -------------------------------------------------------------------------- */
+/*                                 Componente                                 */
+/* -------------------------------------------------------------------------- */
 
 export function HeroInicio({
   tema,
@@ -84,235 +150,313 @@ export function HeroInicio({
   imagenNoche,
   posicionFocoDia = "center",
   posicionFocoNoche = "center",
+  textos,
+  hrefSiguiente = "#festividades",
 }: HeroInicioProps) {
   const oscuro = tema === "oscuro";
-  const prefiereMenosMovimiento = useReducedMotion();
+  const quieto = useReducedMotion() ?? false;
+  const t = { ...TEXTOS, ...textos };
 
-  // Precarga ambas imágenes al montar para que el crossfade nunca parpadee.
+  // Precarga las dos fotos al montar para que el crossfade nunca parpadee.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const dia = new window.Image();
-    dia.src = imagenDia;
-    const noche = new window.Image();
-    noche.src = imagenNoche;
+    for (const src of [imagenDia, imagenNoche]) {
+      const img = new window.Image();
+      img.src = src;
+    }
   }, [imagenDia, imagenNoche]);
 
-  const variantesContenedor = {
-    oculto: {},
-    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
-  };
-  const variantesItem = {
-    oculto: { opacity: 0, y: prefiereMenosMovimiento ? 0 : 18 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const } },
-  };
-
-  const duracionCrossfade = prefiereMenosMovimiento ? 0 : 0.4;
-
-  // Paleta del titular y del acento según el tema. Ver `tema.ts` para el
-  // contraste medido de cada valor sobre su fondo.
-  const bandaTitular = oscuro ? BANDA_GRADIENTE_TITULAR : BANDA_GRADIENTE_TITULAR_CLARO;
-  const colorLinea1 = oscuro ? COLOR_TITULAR_LINEA_1 : COLOR_TITULAR_LINEA_1_CLARO;
-  const colorLinea2 = oscuro ? COLOR_TITULAR_LINEA_2 : COLOR_TITULAR_LINEA_2_CLARO;
-  const colorLinea3 = oscuro ? COLOR_TITULAR_LINEA_3 : COLOR_TITULAR_LINEA_3_CLARO;
-  const colorAcentoTexto = oscuro ? COLOR_ACENTO : COLOR_ACENTO_TEXTO_CLARO;
-
-  const textoParrafo = oscuro ? "text-neutral-200" : "text-neutral-800";
-  const botonSecundario = oscuro
-    ? "border-white/25 bg-white/10 text-white"
-    : "border-neutral-300 bg-white/80 text-neutral-900";
-  const indicadorScroll = oscuro
-    ? "border-white/25 text-white/80"
-    : "border-neutral-300 text-neutral-500";
+  /** Entrada escalonada. Con `prefers-reduced-motion` no se anima nada. */
+  const entrada = (retardo: number) =>
+    quieto
+      ? { initial: false as const }
+      : {
+          initial: { opacity: 0, y: 14 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.55, delay: retardo, ease: [0.22, 1, 0.36, 1] as const },
+        };
 
   return (
-    <section
-      id="inicio"
-      className={`relative min-h-[100svh] w-full overflow-hidden transition-colors duration-300 ${
-        oscuro ? "bg-neutral-950" : "bg-white"
-      }`}
-    >
-      {/* Fondo: ambas fotos siempre montadas, superpuestas de forma idéntica.
-          Nunca se mueven ni cambian de tamaño — solo cruza su opacidad. */}
-      <div className="absolute inset-0">
-        <motion.img
-          src={imagenDia}
-          alt={TEXTOS_HERO.altFotoDia}
-          loading="eager"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: posicionFocoDia }}
-          initial={false}
-          animate={{ opacity: oscuro ? 0 : 1 }}
-          transition={{ duration: duracionCrossfade, ease: "easeInOut" }}
-        />
-        <motion.img
-          src={imagenNoche}
-          alt={TEXTOS_HERO.altFotoNoche}
-          loading="eager"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: posicionFocoNoche }}
-          initial={false}
-          animate={{ opacity: oscuro ? 1 : 0 }}
-          transition={{ duration: duracionCrossfade, ease: "easeInOut" }}
-        />
+    <section id="inicio" className="w-full px-3 pt-3 pb-3 sm:px-4 sm:pt-4 sm:pb-4">
+      {/*
+        La tarjeta ocupa la pantalla menos su propio margen. `100svh` y no
+        `100vh`: en móvil la barra del navegador entra y sale, y con `vh` el
+        hero pega un salto cada vez que eso pasa.
+      */}
+      {/*
+        El filete de un píxel no es decoración: en tema oscuro el lienzo de la
+        página y la parte alta de la tarjeta son casi el mismo negro, y sin él
+        las esquinas redondeadas se pierden y el hero parece ir a sangre. En
+        claro apenas se nota, porque ahí el contraste ya lo da el lienzo.
+      */}
+      <div
+        className={`relative isolate flex min-h-[calc(100svh-1.5rem)] flex-col overflow-hidden rounded-3xl sm:min-h-[calc(100svh-2rem)] ${
+          oscuro ? "ring-1 ring-white/10" : "ring-1 ring-black/10"
+        }`}
+      >
+        {/* ---------------------------- Fondo ---------------------------- */}
+        {/*
+          Las dos fotos van siempre montadas y superpuestas exactamente igual.
+          Nunca se mueven ni se escalan: lo único que cruza es la opacidad, así
+          que el cambio de tema se lee como un amanecer y no como un salto.
+        */}
+        <div className="absolute inset-0 -z-10">
+          <motion.img
+            src={imagenDia}
+            alt={t.altFotoDia}
+            loading="eager"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: posicionFocoDia }}
+            initial={false}
+            animate={{ opacity: oscuro ? 0 : 1 }}
+            transition={{ duration: quieto ? 0 : 0.4, ease: "easeInOut" }}
+          />
+          <motion.img
+            src={imagenNoche}
+            alt={t.altFotoNoche}
+            loading="eager"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: posicionFocoNoche }}
+            initial={false}
+            animate={{ opacity: oscuro ? 1 : 0 }}
+            transition={{ duration: quieto ? 0 : 0.4, ease: "easeInOut" }}
+          />
 
-        {/* Overlay: capa separada ENCIMA de ambas fotos, del color del fondo
-            del tema. Se abre hacia la derecha, así que la columna izquierda
-            —donde va el texto— queda casi opaca y la foto respira a la
-            derecha. En móvil no hay hueco lateral para eso, así que el
-            velo es plano y cubre todo.
+          {/*
+            Velo en cuatro capas, cada una con un trabajo distinto:
 
-            OJO con el `sm:bg-transparent` de las dos ramas: el velo plano de
-            móvil es `background-color` y el gradiente es `background-image`,
-            que son propiedades DISTINTAS. Sin él las dos se acumulan en
-            escritorio y el velo plano sigue tapando la foto por debajo del
-            gradiente, hagas lo que hagas con las paradas.
+            1. Tinte plano, para bajar el brillo general de la foto.
+            2. Refuerzo radial en el centro. Es el que salva el titular: la foto
+               diurna tiene ahí el cielo y la piedra iluminada, y el blanco sobre
+               eso se quedaba corto de contraste.
+            3. Pie, para que las fichas y el botón se lean sobre la parte baja.
+            4. Cabecera, para el navbar transparente que va por encima.
 
-            Por qué van a mano con 6 paradas en vez de `from/via/to`: con tres
-            paradas el velo arranca plano y luego cae, y ese arranque se ve
-            como una COSTURA vertical en mitad del hero. Estas paradas dibujan
-            una caída progresiva sin tramo plano, y además NUNCA llegan a
-            opacidad total: la foto se ve en todo el ancho (12% a la izquierda,
-            88% a la derecha) en vez de desaparecer bajo un muro de color.
+            La foto nocturna ya es oscura de partida, así que en tema oscuro el
+            velo es MÁS suave que en claro; si no, la foto desaparecía.
+          */}
+          <div
+            aria-hidden="true"
+            className={`absolute inset-0 ${oscuro ? "bg-[#0b0908]/35" : "bg-[#100c08]/45"}`}
+          />
+          <div
+            aria-hidden="true"
+            className={
+              oscuro
+                ? "absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_48%,rgba(8,6,5,0.55)_0%,rgba(8,6,5,0.22)_58%,transparent_82%)]"
+                : "absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_48%,rgba(8,6,5,0.68)_0%,rgba(8,6,5,0.34)_58%,transparent_82%)]"
+            }
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 h-3/5 bg-linear-to-t from-[#0b0908]/92 via-[#0b0908]/45 to-transparent"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-40 bg-linear-to-b from-[#0b0908]/75 to-transparent"
+          />
+        </div>
 
-            Los dos temas usan la MISMA geometría de velo — solo cambia el
-            color (#ffffff vs #0a0a0a). Eso los deja simétricos: lo único que
-            los diferencia es la foto y la paleta de texto.
+        {/* --------------------------- Contenido -------------------------- */}
+        {/*
+          Móvil: columna con el orden de lectura puesto a mano con `order-*`.
+          Escritorio: rejilla de dos columnas y tres filas —cabecera, titular y
+          pie—, donde la fila del medio se come el espacio sobrante y centra el
+          titular. `pt` deja sitio al navbar fijo; `pb` respeta el área segura
+          de iOS para que las fichas no queden bajo el indicador del sistema.
+        */}
+        <div className="relative z-10 flex flex-1 flex-col gap-7 px-5 pt-24 pb-[calc(1.75rem+env(safe-area-inset-bottom))] sm:px-8 sm:pt-28 lg:grid lg:grid-cols-2 lg:grid-rows-[auto_1fr_auto] lg:gap-x-10 lg:gap-y-0 lg:px-10 lg:pb-[calc(3.5rem+env(safe-area-inset-bottom))]">
+          {/* ======================= TITULAR ======================= */}
+          <motion.h1
+            {...entrada(0.05)}
+            className="order-1 text-left font-display font-bold text-[#faf6f0] lg:col-span-2 lg:row-start-2 lg:self-center lg:text-center"
+            style={{
+              // `clamp` en vez de saltos por breakpoint: a 320 px entra sin
+              // desbordar y crece de forma continua hasta el tope de 4.75rem.
+              fontSize: "clamp(2.25rem, 8.5vw, 4.75rem)",
+              lineHeight: 1.08,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {t.tituloLinea1}{" "}
+            <PildoraTitular>{t.tituloPildora1}</PildoraTitular>
+            <br />
+            {t.tituloLinea2} <PildoraTitular>{t.tituloPildora2}</PildoraTitular>
+          </motion.h1>
 
-            Por qué hay dos curvas (`sm:` y `xl:`): el ancho del texto es fijo
-            (max-w-xl dentro de max-w-7xl), así que cuanto más estrecha es la
-            pantalla, MÁS PORCENTAJE del ancho ocupa. El borde derecho del
-            párrafo cae en el 59% a 1024px pero solo en el 47% de 1280px en
-            adelante. Con una sola curva habría que proteger el peor caso y el
-            blanco se comería la foto en pantallas grandes.
+          {/* ================= PROPUESTA + CTA PRIMARIO ================= */}
+          {/*
+            En móvil sube justo debajo del titular: es la acción principal y no
+            puede quedar al final de una columna larga. En escritorio se va al
+            pie derecho, alineada con las fichas para que el bloque no flote.
+          */}
+          <motion.div
+            {...entrada(0.14)}
+            className="order-2 flex flex-col items-start gap-4 lg:col-start-2 lg:row-start-3 lg:max-w-sm lg:items-end lg:justify-self-end lg:text-right"
+          >
+            <p className="text-[15px] leading-relaxed text-white/75 sm:text-base lg:text-[15px]">
+              {t.propuesta}
+            </p>
+            <a
+              href="#mapa-3d"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold text-[#1b1206] shadow-lg transition-transform active:scale-[0.98] sm:w-auto"
+              style={{
+                backgroundColor: COLOR_ACENTO,
+                boxShadow: `0 12px 30px -12px ${COLOR_ACENTO}b3`,
+              }}
+            >
+              {t.botonPrimario}
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+          </motion.div>
 
-            Contraste medido con el velo real aplicado, sobre el peor punto
-            de la foto bajo cada franja de texto — en claro el bloque más
-            OSCURO (texto oscuro sobre sombra), en oscuro el más BRILLANTE
-            (texto claro sobre farola):
+          {/* ===================== PRUEBA SOCIAL ===================== */}
+          <motion.div
+            {...entrada(0.22)}
+            className="order-3 flex items-center gap-3 lg:col-start-1 lg:row-start-1 lg:self-start"
+          >
+            <ul className="flex -space-x-2.5" aria-hidden="true">
+              {VIAJEROS.map((v) => (
+                <li
+                  key={v.iniciales}
+                  className="grid h-9 w-9 place-items-center rounded-full text-[11px] font-bold text-white/90 ring-2 ring-[#0b0908]/60"
+                  style={{ backgroundImage: `linear-gradient(140deg, ${v.de}, ${v.a})` }}
+                >
+                  {v.iniciales}
+                </li>
+              ))}
+            </ul>
+            <p className="max-w-[16ch] text-[13px] leading-tight text-white/80 sm:max-w-none sm:text-sm">
+              {t.pruebaSocial}
+            </p>
+          </motion.div>
 
-              claro   titular 3.25:1 / 3.67:1 (mín. 3:1)
-                      párrafo 5.28:1 / 10.75:1 (mín. 4.5:1)
-              oscuro  titular 5.67:1 / 8.88:1 (mín. 3:1)
-                      párrafo 5.82:1 / 13.58:1 (mín. 4.5:1)
+          {/* ================ TARJETA GLASS + REDES ================ */}
+          <motion.div
+            {...entrada(0.3)}
+            className="order-4 flex items-start gap-3 lg:col-start-2 lg:row-start-1 lg:justify-self-end"
+          >
+            <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-md sm:p-5 lg:max-w-sm lg:text-right">
+              <ShieldCheck
+                className="h-5 w-5 lg:ml-auto"
+                style={{ color: COLOR_ACENTO }}
+                aria-hidden="true"
+              />
+              <h2 className="mt-2.5 font-display text-lg font-bold text-[#faf6f0] sm:text-xl">
+                {t.tarjetaTitulo}
+              </h2>
+              {/*
+                Dos versiones del mismo párrafo en vez de una recortada con
+                puntos suspensivos: en móvil la tarjeta compite con el resto de
+                la columna y el texto largo la convertía en un muro.
+              */}
+              <p className="mt-1.5 text-[13px] leading-relaxed text-white/70 sm:text-sm">
+                <span className="sm:hidden">{t.tarjetaTextoCorto}</span>
+                <span className="hidden sm:inline">{t.tarjetaTexto}</span>
+              </p>
+            </div>
 
-            El tema claro va justo; el oscuro tiene margen de sobra porque la
-            foto nocturna es oscura de partida. Si tocas estas paradas, esos
-            números se mueven — el que primero se cae es el dorado del
-            titular en claro. */}
-        <div
-          className={`absolute inset-0 transition-colors duration-300 ${
-            oscuro
-              ? "bg-neutral-950/70 sm:bg-transparent"                + " sm:bg-[linear-gradient(to_right,#0a0a0ae6_0%,#0a0a0ae0_45%,#0a0a0ad1_60%,#0a0a0a85_75%,#0a0a0a42_90%,#0a0a0a29_100%)]"                + " xl:bg-[linear-gradient(to_right,#0a0a0ae0_0%,#0a0a0adb_30%,#0a0a0ad1_47%,#0a0a0a94_62%,#0a0a0a52_78%,#0a0a0a1f_100%)]"
-              : "bg-white/80 sm:bg-transparent"                + " sm:bg-[linear-gradient(to_right,#ffffffe6_0%,#ffffffe0_45%,#ffffffd1_60%,#ffffff85_75%,#ffffff42_90%,#ffffff29_100%)]"                + " xl:bg-[linear-gradient(to_right,#ffffffe0_0%,#ffffffdb_30%,#ffffffd1_47%,#ffffff94_62%,#ffffff52_78%,#ffffff1f_100%)]"
-          }`}
-        />
-        {/* Segunda capa, vertical: asienta el borde inferior contra el fondo
-            de la página para que la foto no corte en seco. Ojo: esta capa
-            MULTIPLICA con la de arriba, así que lo que ponga en el borde
-            superior se suma al blanco lateral y lava la foto justo donde
-            tiene que verse. Por eso arriba casi no lleva nada. */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-t transition-colors duration-300 ${
-            oscuro
-              ? "from-neutral-950/60 via-transparent to-neutral-950/45"
-              : "from-white/60 via-transparent to-white/10"
-          }`}
-        />
+            {/* Tira vertical de redes: solo en escritorio, al costado. */}
+            <Redes className="hidden flex-col lg:flex" />
+          </motion.div>
+
+          {/* ========================= FICHAS ========================= */}
+          <motion.div
+            {...entrada(0.38)}
+            className="order-5 lg:col-start-1 lg:row-start-3 lg:self-end"
+          >
+            <p className="text-[13px] font-semibold text-white/70 sm:text-sm">
+              {t.etiquetaOferta}
+            </p>
+
+            {/*
+              Móvil: carril que se arrastra en horizontal con anclaje, sangrado
+              hasta el borde para que se vea que sigue. Desde `sm` ya hay ancho
+              de sobra y se convierte en fichas que fluyen en varias líneas.
+
+              Los márgenes negativos van acompañados del mismo relleno: el
+              carril se sale del bloque pero su contenido sigue alineado con el
+              resto de la columna.
+            */}
+            <ul className="sin-barra-scroll -mx-5 mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+              {OFERTA.map(({ etiqueta, Icono, href }) => (
+                <li key={etiqueta} className="shrink-0 snap-start sm:shrink">
+                  <a
+                    href={href}
+                    className="flex min-h-11 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 text-[13px] font-medium text-white/90 backdrop-blur-sm transition-colors hover:bg-white/20 sm:text-sm"
+                  >
+                    <Icono className="h-4 w-4 shrink-0" style={{ color: COLOR_ACENTO }} aria-hidden="true" />
+                    <span className="whitespace-nowrap">{etiqueta}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* ============ REDES EN MÓVIL: PIE DISCRETO ============ */}
+          <motion.div {...entrada(0.46)} className="order-6 lg:hidden">
+            <Redes className="flex-row justify-start" />
+          </motion.div>
+        </div>
+
+        {/* ---------------------- Indicador de scroll ---------------------- */}
+        {/*
+          Solo en escritorio: en móvil el contenido ya llega hasta abajo y un
+          chevron flotando se montaría sobre las fichas.
+        */}
+        <motion.a
+          href={hrefSiguiente}
+          aria-label={t.irAlSiguiente}
+          animate={quieto ? {} : { y: [0, 7, 0] }}
+          transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-5 left-1/2 z-10 hidden h-11 w-11 -translate-x-1/2 place-items-center rounded-full border border-white/25 text-white/80 backdrop-blur-sm transition-colors hover:bg-white/10 lg:grid"
+        >
+          <ChevronDown className="h-4 w-4" aria-hidden="true" />
+        </motion.a>
       </div>
-
-      {/* Contenido — toda la paleta sigue al tema (ver arriba) */}
-      <motion.div
-        variants={variantesContenedor}
-        initial="oculto"
-        animate="visible"
-        className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center px-4 pb-10 pt-24 sm:px-6 sm:pt-28 lg:px-8"
-      >
-       
-
-        {/* Titular: la entrada de cada línea es el propio barrido de
-            DiaTextReveal (Magic UI), en vez del fade+subida de motion/react
-            que usan el resto de bloques del hero. Cada línea tiene su color
-            final (`textColor`) y las tres comparten la misma banda cálida;
-            ambos cambian con el tema, porque el dorado y el malva del tema
-            oscuro no se leen sobre blanco. Si el usuario tiene
-            prefers-reduced-motion, el propio componente salta directo al
-            color final sin barrido. */}
-        <h1 className="mt-5 text-[clamp(2.25rem,9vw,4.5rem)] font-black leading-[1.05] tracking-tight sm:mt-6">
-          <DiaTextReveal
-            text={TEXTOS_HERO.tituloLinea1}
-            colors={bandaTitular}
-            textColor={colorLinea1}
-            duration={1.7}
-            delay={0.15}
-            once
-            className="block pb-[0.16em]"
-          />
-          <DiaTextReveal
-            text={TEXTOS_HERO.tituloLinea2}
-            colors={bandaTitular}
-            textColor={colorLinea2}
-            duration={1.7}
-            delay={0.33}
-            once
-            className="block pb-[0.16em]"
-          />
-          <DiaTextReveal
-            text={TEXTOS_HERO.tituloLinea3}
-            colors={bandaTitular}
-            textColor={colorLinea3}
-            duration={1.7}
-            delay={0.51}
-            once
-            className="block pb-[0.16em]"
-          />
-        </h1>
-
-        <motion.div variants={variantesItem} className="mt-5 max-w-xl">
-          <TypingAnimation
-            as="p"
-            segments={PARRAFO_SEGMENTOS.map((segmento) => ({
-              text: segmento.texto,
-              className: segmento.resaltado ? "font-semibold" : undefined,
-              style: segmento.resaltado ? { color: colorAcentoTexto } : undefined,
-            }))}
-            typeSpeed={19}
-            delay={800}
-            reserveSpace
-            hideCursorOnFinish
-            className={`text-sm leading-relaxed transition-colors duration-300 sm:text-base ${textoParrafo}`}
-          />
-        </motion.div>
-
-        <motion.div variants={variantesItem} className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a
-            href="#mapa-3d"
-            className="flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95"
-            style={{ backgroundColor: COLOR_ACENTO, boxShadow: `0 10px 25px -8px ${COLOR_ACENTO}66` }}
-          >
-            <MapIcon className="h-4 w-4" />
-            {TEXTOS_HERO.botonPrimario}
-          </a>
-          <button
-            type="button"
-            className={`flex min-h-11 items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold backdrop-blur-sm transition-transform active:scale-95 ${botonSecundario}`}
-          >
-            <PlayCircle className="h-4 w-4" />
-            {TEXTOS_HERO.botonSecundario}
-          </button>
-        </motion.div>
-      </motion.div>
-
-      {/* Indicador de scroll */}
-      <motion.div
-        animate={prefiereMenosMovimiento ? {} : { y: [0, 8, 0] }}
-        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute bottom-6 left-1/2 z-10 -translate-x-1/2 rounded-full border p-2 transition-colors duration-300 ${indicadorScroll}`}
-        aria-hidden="true"
-      >
-        <ChevronDown className="h-4 w-4" />
-      </motion.div>
     </section>
   );
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                  Auxiliares                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Palabra del titular dentro de una píldora crema.
+ *
+ * `inline-block` con relleno en `em` para que la cápsula crezca con la letra y
+ * no haya que reajustarla en cada breakpoint. `whitespace-nowrap` es lo que
+ * garantiza que la palabra caiga entera al renglón siguiente en vez de
+ * partirse por la mitad, que es justo lo que no queremos a 320 px.
+ */
+function PildoraTitular({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-block rounded-full bg-[#f5ece0] px-[0.3em] pb-[0.06em] whitespace-nowrap text-[#17120c]">
+      {children}
+    </span>
+  );
+}
+
+/** Tira de redes. Se usa en vertical en escritorio y en horizontal en móvil. */
+function Redes({ className = "" }: { className?: string }) {
+  return (
+    <ul className={`flex gap-1 ${className}`}>
+      {REDES.map(({ nombre, Icono, href }) => (
+        <li key={nombre}>
+          <a
+            href={href}
+            aria-label={nombre}
+            className="grid h-11 w-11 place-items-center rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <Icono className="h-4.5 w-4.5" aria-hidden="true" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default HeroInicio;

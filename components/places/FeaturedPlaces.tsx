@@ -315,7 +315,7 @@ export default function FeaturedPlaces({
       aria-roledescription="carousel"
       aria-label="Lugares patrimoniales destacados de Huamanga"
       /* Dark mode: crema casi blanco en light, casi negro en dark. */
-      className={`w-full bg-[#FAF9F7] py-8 text-[#111111] sm:py-10 dark:bg-[#0A0A0A] dark:text-white ${className}`}
+      className={`w-full bg-[#faf8f5] py-8 text-[#111111] sm:py-10 dark:bg-[#0e0d0c] dark:text-white ${className}`}
     >
       {/* ------------------------------ Cabecera ------------------------------ */}
       {/* `relative` porque "Ver todos" se ancla a esta caja en pantallas

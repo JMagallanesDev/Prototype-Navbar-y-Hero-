@@ -36,7 +36,7 @@ export function MapaTresD({ tema }: MapaTresDProps) {
       // `.dark` activa la paleta oscura del componente; el fondo lo pone esta
       // sección y es el mismo de la página, para que la tarjeta del mapa flote
       // sobre un lienzo continuo en vez de sobre una banda de otro tono.
-      className={oscuro ? "dark bg-neutral-950" : "bg-white"}
+      className={oscuro ? "dark bg-[#0e0d0c]" : "bg-[#faf8f5]"}
     >
       {/* `max-w-6xl` y no `7xl`: la captura está pensada para verse a unos
           1100 px, que es el ancho que declara su propio `sizes`. Más ancha, la
