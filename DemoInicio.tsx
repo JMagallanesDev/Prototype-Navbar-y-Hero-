@@ -14,6 +14,8 @@ import { LugaresDestacados } from "./LugaresDestacados";
 import { ClimaYRecomendaciones } from "./ClimaYRecomendaciones";
 import { MapaTresD } from "./MapaTresD";
 import { PasaporteCultural } from "./PasaporteCultural";
+import { ComunidadYResenas } from "./ComunidadYResenas";
+import { PieYLlamada } from "./PieYLlamada";
 import type { Tema } from "./tema";
 
 export default function DemoInicio() {
@@ -41,18 +43,9 @@ export default function DemoInicio() {
 
       <PasaporteCultural tema={tema} />
 
-      {/* Contenido de ejemplo SOLO de esta demo, para poder probar el
-          navbar volviéndose sólido al hacer scroll. */}
-      <section
-        className={`flex min-h-[60svh] items-center justify-center px-4 text-center ${
-          tema === "oscuro" ? "bg-neutral-950 text-white/60" : "bg-white text-neutral-500"
-        }`}
-      >
-        <p className="max-w-md text-sm">
-          Contenido de ejemplo de esta demo. Sube el scroll para ver el navbar volverse sólido, y usa el
-          interruptor de tema en la barra superior para alternar entre día y noche.
-        </p>
-      </section>
+      <ComunidadYResenas tema={tema} />
+
+      <PieYLlamada tema={tema} />
     </div>
   );
 }
