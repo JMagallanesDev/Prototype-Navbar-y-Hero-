@@ -11,8 +11,8 @@ import { NavegacionPrincipal } from "./NavegacionPrincipal";
 import { HeroInicio } from "./HeroInicio";
 import { FestividadesAyacucho } from "./FestividadesAyacucho";
 import { LugaresDestacados } from "./LugaresDestacados";
-import { ClimaYRecomendaciones } from "./ClimaYRecomendaciones";
-import { MapaTresD } from "./MapaTresD";
+import { ClimaRecomendaciones } from "./ClimaRecomendaciones";
+import { MapaPreview } from "./MapaPreview";
 import { PasaporteCultural } from "./PasaporteCultural";
 import { ComunidadYResenas } from "./ComunidadYResenas";
 import { PieYLlamada } from "./PieYLlamada";
@@ -37,9 +37,9 @@ export default function DemoInicio() {
 
       <LugaresDestacados tema={tema} />
 
-      <ClimaYRecomendaciones tema={tema} />
+      <ClimaRecomendaciones tema={tema} />
 
-      <MapaTresD tema={tema} />
+      <MapaPreview tema={tema} />
 
       <PasaporteCultural tema={tema} />
 

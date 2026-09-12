@@ -99,25 +99,28 @@ export function NavegacionPrincipal({ tema, alternarTema }: NavegacionPrincipalP
   // En transparente los tonos van un punto más contrastados que en sólido,
   // porque debajo hay una foto y no una superficie plana.
   /*
-   * El color del texto NO sigue al tema mientras el navbar está transparente:
-   * sigue a lo que tiene debajo. Y debajo está el hero, que es una tarjeta
-   * oscura en los DOS temas —lo que cambia con el tema es la foto y el lienzo
-   * de la página, no la tarjeta—, así que ahí el texto va siempre claro.
-   *
-   * En cuanto aparece el fondo sólido al hacer scroll, el navbar ya se apoya
-   * sobre la página y entonces sí manda el tema.
-   *
-   * Antes esto se decidía solo por `claro`, cuando el hero era blanco en tema
-   * claro. Con el modelo nuevo aquello dejaba los enlaces en gris oscuro sobre
-   * una foto oscura: ilegibles.
+   * El color del texto sigue al tema en los dos estados, transparente y
+   * sólido: cuando el navbar está arriba del todo se apoya sobre el hero, que
+   * es claro en tema claro y oscuro en tema oscuro. Lo único que cambia entre
+   * un estado y otro es cuánto contraste se le da, porque en transparente
+   * debajo hay una foto velada y no una superficie plana.
    */
-  const sobreFoto = !conScroll;
-  const claroSolido = claro && conScroll;
-
-  const textoPrincipal = claroSolido ? "text-neutral-900" : "text-white";
-  const textoSecundario = claroSolido ? "text-neutral-600" : sobreFoto ? "text-white/85" : "text-white/70";
-  const textoSutil = claroSolido ? "text-neutral-500" : sobreFoto ? "text-white/70" : "text-white/55";
-  const hoverSuperficie = claroSolido ? "hover:bg-black/5" : "hover:bg-white/10";
+  const textoPrincipal = claro ? "text-neutral-900" : "text-white";
+  const textoSecundario = claro
+    ? conScroll
+      ? "text-neutral-600"
+      : "text-neutral-700"
+    : conScroll
+      ? "text-white/70"
+      : "text-white/85";
+  const textoSutil = claro
+    ? conScroll
+      ? "text-neutral-500"
+      : "text-neutral-600"
+    : conScroll
+      ? "text-white/55"
+      : "text-white/70";
+  const hoverSuperficie = claro ? "hover:bg-black/5" : "hover:bg-white/10";
 
   // Los paneles de los dropdowns siempre son superficies sólidas propias,
   // así que sí siguen el tema sin importar si el navbar está transparente.
