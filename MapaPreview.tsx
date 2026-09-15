@@ -366,9 +366,14 @@ export function MapaPreview({
         {/*
           Arriba en móvil —sobre la zona más velada— y a la izquierda, centrado
           en vertical, desde `lg`. El `pb` respeta el área segura de iOS.
+
+          Mismos márgenes que PasaporteCultural para que los textos de las dos
+          secciones caigan en la misma vertical: centrado a `max-w-xl` por
+          debajo de `lg` y, desde `lg`, sangría en `vw` desde el borde de la
+          ventana en vez del contenedor centrado `max-w-7xl`.
         */}
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-start px-4 pt-14 pb-[calc(3rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-20 lg:justify-center lg:px-8 lg:py-24">
-          <div className="w-full max-w-xl">
+        <div className="relative z-10 flex w-full flex-1 flex-col justify-start px-4 pt-14 pb-[calc(3rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-20 lg:justify-center lg:py-24 lg:pr-0 lg:pl-[max(2rem,6vw)]">
+          <div className="mx-auto w-full max-w-xl lg:mx-0">
             {/* Antetítulo con su guión. */}
             <motion.p
               initial={quieto ? false : { opacity: 0, y: 12 }}

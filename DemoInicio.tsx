@@ -12,9 +12,9 @@ import { HeroInicio } from "./HeroInicio";
 import { FestividadesAyacucho } from "./FestividadesAyacucho";
 import { LugaresDestacados } from "./LugaresDestacados";
 import { ClimaRecomendaciones } from "./ClimaRecomendaciones";
-import { MapaPreview } from "./MapaPreview";
+import { MapaTresD } from "./MapaTresD";
 import { PasaporteCultural } from "./PasaporteCultural";
-import { ComunidadYResenas } from "./ComunidadYResenas";
+import { ComunidadResenas } from "./ComunidadResenas";
 import { PieYLlamada } from "./PieYLlamada";
 import type { Tema } from "./tema";
 
@@ -39,11 +39,11 @@ export default function DemoInicio() {
 
       <ClimaRecomendaciones tema={tema} />
 
-      <MapaPreview tema={tema} />
+      <MapaTresD tema={tema} />
 
       <PasaporteCultural tema={tema} />
 
-      <ComunidadYResenas tema={tema} />
+      <ComunidadResenas tema={tema} />
 
       <PieYLlamada tema={tema} />
     </div>
